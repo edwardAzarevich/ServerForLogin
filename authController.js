@@ -19,7 +19,7 @@ class authController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return res.status(400).json({ massage: "Ощибка при регистрации", errors })
+                return res.status(400).json({ massage: "Error during registration", errors })
             }
             const { username, password } = req.body
             const candidate = await User.findOne({ username });
@@ -27,7 +27,10 @@ class authController {
                 return res.status(400).json({ message: "User has been insert" })
             }
             var hashPassword = bcrypt.hashSync(password, 7);
-            const userRole = await Role.findOne({ value: "USER" });
+            const userRole = await Role.findOne({ value: "ADMIN" });
+            console.log(Role);
+            console.log(userRole.value);
+
             const user = new User({ username, password: hashPassword, roles: [userRole.value] });
             await user.save();
             return res.json({ message: "Mission complite" });
@@ -43,11 +46,11 @@ class authController {
             const { username, password } = req.body;
             const user = await User.findOne({ username });
             if (!user) {
-                return res.status(400).json({ message: `Пользователь ${username} не найден` })
+                return res.status(400).json({ message: `User ${username} not found` })
             }
             const validPassword = bcrypt.compareSync(password, user.password)
             if (!validPassword) {
-                return res.status(400).json({ massage: `Введен неверный пароль` })
+                return res.status(400).json({ massage: `Invalid password entered` })
             }
             const token = generateAccessToken(user._id, user.roles);
             return res.json({ token });
@@ -62,15 +65,10 @@ class authController {
     async getUsers(req, res) {
         try {
             const users = await User.find();
-            // const userRole = new Role()
-            // const adminRole = new Role({ value: "Admin" })
-            // await userRole.save()
-            // await adminRole.save()
 
             res.json(users);
         } catch (e) {
             console.log(e);
-            //res.status(400);
         }
     }
 }

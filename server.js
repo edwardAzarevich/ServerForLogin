@@ -2,9 +2,13 @@ const express = require('express'),
     mongoose = require('mongoose'),
     PORTS = 5000,
     DB_URL = 'mongodb://localhost:27017/autorization',
+    cors = require('cors'),
     authRouter = require('./authRouter');
 
 const app = express();
+
+app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 app.use(express.json());
 app.use("/auth", authRouter);
 
