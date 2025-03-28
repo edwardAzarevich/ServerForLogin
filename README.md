@@ -1,14 +1,27 @@
 # ServerForLogin
-To work with the server, you must have mongodb NoSQL-sistem.
-1. Start server (node server.js) and you will see a message with "Start server on port 5000".
-2. For testing, you can use postman or any view for user registration and user login.
 
-2.1 - For registration use address "localhost:5000/auth/registration".
-  If everything is fine, you will receive an answer "message": "Mission complete" 
+To work with the server, you must have MongoDB NoSQL system installed.
 
-2.2 - For login use address "localhost:5000/auth/login".
-  If everything is fine, you will receive an answer `"token": "...". Use this token to get data from the server for a GET request.
+## Getting Started
 
-2.3 - To get the data, use GET the address "localhost:5000/auth/users" 
-  and place the token in the format "Authorization" : "Bearer token" in headers Get request.
-  In the response you will receive a list of users and their passwords in encrypted form.
+1. **Start the Server**
+   - Run the following command in your terminal:
+     ```bash
+     node server.js
+     ```
+   - You should see a message indicating that the server has started:
+     ```
+     Start server on port 5000
+     ```
+
+2. **Testing the Server**
+   - You can use Postman or any other tool to test user registration and login.
+
+### User Registration
+
+- **Endpoint:** `POST localhost:5000/auth/registration`
+- **Response:** If everything is fine, you will receive:
+  ```json
+  {
+    "message": "Mission complete"
+  }
